@@ -23,4 +23,18 @@ describe "Books API", type: :request do
             expect(response).to have_http_status(:created)
         end
     end
+
+    describe "DELETE /books" do
+        let!(:book)  { FactoryBot.create(:book, author: "Urban Naxals", title: "Vivek Agnihotri") }
+
+        it "deletes a book" do
+
+            expect{
+                delete "/api/v1/books/#{book.id}"
+            }.to change {Book.count}.from(1).to(0)
+
+            expect(response).to have_http_status(:no_content)
+
+        end
+    end
 end
